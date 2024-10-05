@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
-from cinema.models import Movie
+from cinema.models import (Movie,
+                           Genre,
+                           Actor,
+                           CinemaHall)
 
 
 class MovieSerializer(serializers.Serializer):
@@ -13,12 +16,49 @@ class MovieSerializer(serializers.Serializer):
         return Movie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
+        instance.title = validated_data.get("title",
+                                            instance.title)
         instance.description = validated_data.get(
             "description", instance.description
         )
-        instance.duration = validated_data.get("duration", instance.duration)
+        instance.duration = validated_data.get("duration",
+                                               instance.duration)
 
         instance.save()
 
         return instance
+
+
+class GenreSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=64, unique=True)
+
+    def create(self, validated_data):
+        return Genre.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name",
+                                           instance.name)
+        instance.save()
+        return instance
+
+
+class ActorSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
+
+    def create(self, validated_data):
+        return Actor.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get("first_name",
+                                                 instance.first_name)
+        instance.second_name = validated_data.get("second_name",
+                                                  instance.second_name)
+
+
+class CinemaHallSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=255)
+    rows = serializers.IntegerField()
