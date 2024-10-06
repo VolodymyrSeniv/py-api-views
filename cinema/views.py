@@ -24,7 +24,7 @@ class GenreList(APIView):
         serializer = GenreSerializer(genre,
                                      many=True)
         return Response(serializer.data,
-                        status=status.HTPP_200_OK)
+                        status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = GenreSerializer(data=request.data)

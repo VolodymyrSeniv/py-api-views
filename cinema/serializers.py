@@ -53,11 +53,24 @@ class ActorSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get("first_name",
                                                  instance.first_name)
-        instance.second_name = validated_data.get("second_name",
+        instance.last_name = validated_data.get("second_name",
                                                   instance.second_name)
+        instance.save()
+        return instance
 
 
 class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
     rows = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return Actor.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get("name",
+                                                 instance.name)
+        instance.second_name = validated_data.get("second_name",
+                                                  instance.rows)
+        instance.save()
+        return instance
