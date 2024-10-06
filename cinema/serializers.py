@@ -22,9 +22,7 @@ class MovieSerializer(serializers.Serializer):
         )
         instance.duration = validated_data.get("duration",
                                                instance.duration)
-
         instance.save()
-
         return instance
 
 
@@ -53,7 +51,7 @@ class ActorSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get("first_name",
                                                  instance.first_name)
-        instance.last_name = validated_data.get("second_name",
+        instance.last_name = validated_data.get("last_name",
                                                 instance.second_name)
         instance.save()
         return instance
@@ -70,7 +68,7 @@ class CinemaHallSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get("name",
                                                  instance.name)
-        instance.second_name = validated_data.get("second_name",
+        instance.second_name = validated_data.get("rows",
                                                   instance.rows)
         instance.save()
         return instance
